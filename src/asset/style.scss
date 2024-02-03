@@ -1,0 +1,57 @@
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 50px;
+  @media screen and (min-width: 320px){
+    padding: 0 20px;
+  }
+}
+.choise {
+  transition: all 4s;
+  background-color: #9F0000;
+  color: #FBFFCF;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.list-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-left: -50px;
+  li {
+    padding-left: 50px;
+    &:first-child {
+      button {
+        background-color: #027772;
+      }
+    }
+    &:last-child {
+      button {
+        background-color: #E57100;
+      }
+    }
+  }
+  button {
+    padding: 20px;
+    border: 1px solid #000;
+    cursor: pointer;
+    border-radius: 20px;
+    color: #fff;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+.list-number {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-left: -10px;
+  height: 360px;
+  > li {
+    width: 10%;
+    padding: 10px 0;
+    text-align: center;
+  }
+}
