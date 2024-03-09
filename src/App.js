@@ -8,7 +8,8 @@ function App() {
   const [initArray, setInitArray] = useState([]);
   const [listNumberShow, setListNumberShow] = useState([]);
   const [listResult, setListReusult] = useState([]);
-  
+  const [isShuffle, setIsShuffle] = useState(false);
+
   function padWithLeadingZeros(num, totalLength) {
     return String(num).padStart(totalLength, '0');
   }
@@ -31,19 +32,49 @@ function App() {
       const padNum = padWithLeadingZeros(item, 2);
       setInitArray(initArray.filter(num => num !== item))
       setListReusult(num => [...num, padNum])
+      setIsShuffle(false)
     } else {
       alert("Hết số")
     }
+  }
+  const shuffle = () => {
+    let array = initArray
+    let currentIndex = array.length, randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+    setInitArray(array);
+    setIsShuffle(true)
+  }
+  const getJson = (array) => {
+    const data = {}
+    for (let index = 0; index < (array.sort((a, b) => { return a-b}).length / 5); index++) {
+      var items = array.slice(index * 5, (index + 1) * 5);
+      for (let index = 0; index < 4; index++) {
+        items.splice((items.length + 1) * Math.random() | 0, 0, 0)
+      }
+      data[index] = items
+    }
+    return data
   }
   useEffect(() => {
     init()
   }, [])
 
   useEffect(() => {
-    document.body.onkeyup = function(e) {
+    document.body.onkeyup = function (e) {
       if (e.key === " " ||
-          e.code === "Space" ||      
-          e.keyCode === 32      
+        e.code === "Space" ||
+        e.keyCode === 32
       ) {
         random();
       }
@@ -60,9 +91,14 @@ function App() {
         nonNumberStyle={{ fontSize: '30px' }}
         play numbers={listResult.length !== 0 ? listResult[listResult.length - 1] : '99'} duration={2} />
       <ul className='list-button'>
-        <li><button onClick={() => random()}>Quay</button></li>
-        <li><button onClick={() => reset()}>Reset</button></li>
+        <li className='run'><button onClick={() => random()}>Quay</button></li>
+        <li className='reset'><button onClick={() => reset()}>Reset</button></li>
+        <li className='shuffle'><button onClick={() => shuffle()}>Shuffle</button></li>
       </ul>
+      {isShuffle ? <div className='wrap-suffle'>
+        <p>Suffle thành công rồi mẹ</p>
+        <p className='wrap-img'><img src="/lover.jpg" alt=""/></p>
+      </div> : ""}
       <ul className='list-number'>
         {
           listNumberShow && listNumberShow.map(num => {
